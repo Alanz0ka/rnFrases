@@ -1,12 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, Image,TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 
 export default function App() {
+  const[texto, setText] =useState(
+    "Texto inicial"
+  );
+  const[Imagem, setImagem] =useState(
+    {uri:"https://cdn2.thedogapi.com/images/SJJtcXs4m.gif"}
+  )
+  function MudaTexto() {
+    setText("Oi Alann")
+    fetch('https://api.thedogapi.com/v1/images/search').then(res => res.json()).then(Imagem =>{
+      console.log(Imagem[0].url)
+      setImagem({uri:Imagem[0].url})
+  })
+}
+/* https://positive-vibes-api.herokuapp.com/quotes/random */
   return (
     <SafeAreaView style={styles.container}>
-      <Image style ={styles.imagem} source={{uri:"http://pm1.narvii.com/8300/4a87698377a09123b0ebaf29b9776984058dd48fr1-720-403v2_00.jpg"}}></Image>
-      <Text>generico</Text>
-      <TouchableOpacity style={styles.button}>
+      <Image style ={styles.imagem} source={Imagem}></Image>
+      <Text>{texto}</Text>
+      <TouchableOpacity onPress={MudaTexto} style={styles.button}>
         <Text>Me toque!</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
